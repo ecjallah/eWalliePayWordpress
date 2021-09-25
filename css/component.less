@@ -1,0 +1,265 @@
+//out: false
+
+// MIXINS 
+// slow transition
+.slowTrans(@duration) {
+	transition: all @duration ease-in-out !important;
+	-webkit-transition: all @duration ease-in-out !important;
+	-ms-transition: all @duration ease-in-out !important;
+	-o-transition: all @duration ease-in-out !important;
+	-ms-transition: all @duration ease-in-out !important;
+}
+
+
+// border radius 
+.borderRadius(@radius) {
+	border-radius: @radius  !important;
+	-webkit-border-radius: @radius  !important;
+	-ms-border-radius: @radius  !important;
+	-o-border-radius: @radius  !important;
+	-moz-border-radius: @radius  !important;
+	overflow: hidden;
+}
+
+// flex 
+.flex(@value) {
+	flex: @value;
+	-webkit-flex: @value;
+	-moz-flex: @value;
+	-o-flex: @value;
+	-ms-flex: @value;
+}
+
+.displayFlex() {
+	display: -webkit-box;
+	/* OLD - iOS 6-, Safari 3.1-6, BB7 */
+	display: -ms-flexbox;
+	/* TWEENER - IE 10 */
+	display: -webkit-flex;
+	/* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+	display: flex;
+	/* NEW, Spec - Firefox, Chrome, Opera */
+}
+
+// controls the box shadow
+.boxShadow(@controls, @color) {
+	box-shadow: @controls @color;
+	-webkit-box-shadow: @controls @color;
+	-moz-box-shadow: @controls @color;
+	-o-box-shadow: @controls @color;
+	-ms-box-shadow: @controls @color;
+}
+
+// box shadow for the containers 
+.containerShadow(@depth) {
+	box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, @depth);
+	-webkit-box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, @depth);
+	-moz-box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, @depth);
+	-o-box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, @depth);
+	-ms-box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, @depth);
+}
+
+// linear gradient backgrounds 
+.linearGradientBackground(@direction, @colors) {
+	background-image: linear-gradient(to @direction, @colors);
+	background-image: -webkit-linear-gradient(to @direction, @colors);
+	background-image: -moz-linear-gradient(to @direction, @colors);
+	background-image: -ms-linear-gradient(to @direction, @colors);
+	background-image: -o-linear-gradient(to @direction, @colors);
+}
+
+.linearGradientBackgroundDEG(@direction, @colors) {
+	background-image: linear-gradient(@direction, @colors);
+	// background-image: -webkit-linear-gradient(@direction, @colors);
+	// background-image: -moz-linear-gradient(@direction, @colors);
+	// background-image: -ms-linear-gradient(@direction, @colors);
+	// background-image: -o-linear-gradient(@direction, @colors);
+}
+
+// neumorphic box shadow for the containers 
+.neumorphicContainerShadow() {
+	overflow: visible;
+	.boxShadow(3px 3px 6px 2px, rgba(0, 0, 0, 0.15));
+	position: relative;
+	z-index: 2;
+
+	&:before,
+	&:after {
+		position: absolute;
+		z-index: -1;
+		content: "";
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		.borderRadius(inherit);
+		.boxShadow(-3px -3px 6px 2px, rgba(255, 255, 255, .8));
+	}
+}
+
+.insetNeumorphicContainerShadow() {
+	overflow: visible;
+	.boxShadow(inset -2px -2px 3px 1px, rgba(255, 255, 255, 1));
+	position: relative;
+	z-index: 2;
+
+	&:before,
+	&:after {
+		position: absolute;
+		z-index: -1;
+		content: "";
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		.borderRadius(inherit);
+		.boxShadow(inset 2px 2px 2px 0.7px, rgba(0, 0, 0, 0.08));
+	}
+}
+
+// converts a container to a flex box and center all elements 
+.flexAndCenter() {
+	.displayFlex();
+	justify-content: center;
+	align-items: center;
+}
+
+// transitions 
+.transition(@property) {
+	transition: @property;
+	-webkit-transition: @property;
+	-moz-transition: @property;
+	-ms-transition: @property;
+	-o-transition: @property;
+}
+
+// transform 
+.transform(@direction) {
+	transform: @direction;
+	-webkit-transform: @direction;
+	-moz-transform: @direction;
+	-ms-transform: @direction;
+	-o-transform: @direction;
+}
+
+.preloaderDark(@timer) {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(90deg, ~"rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0)");
+	.transform(translateX(-100%));
+	animation: loading @timer infinite;
+	-webkit-animation: loading @timer infinite;
+}
+
+.preloaderLight(@timer, @fadeLevel) {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(90deg, ~"rgba(255, 255, 255, 0), rgba(255, 255, 255, @{fadeLevel}), rgba(255, 255, 255, 0)");
+	.transform(translateX(-100%));
+	animation: loading @timer infinite;
+}
+
+.textPreloaderLight(@height, @width) {
+	&:empty {
+		margin-top: 10px;
+		width: @width;
+		height: @height;
+		.borderRadius(@height/2);
+		background-color: lighten(@grayBack, 50%);
+		position: relative;
+		overflow: hidden;
+
+
+		&:after {
+			.preloaderLight(1s, 1)
+		}
+	}
+}
+
+.imagePreloaderLight() {
+	&:empty {
+		position: relative;
+		overflow: hidden;
+		background: darken(@containerColor, 5%);
+		border: none;
+
+		&:after {
+			.preloaderLight(2s, 1);
+		}
+	}
+}
+
+.noTextSelection() {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.blur(@pixel) {
+	filter: blur(@pixel);
+	-o-filter: blur(@pixel);
+	-ms-filter: blur(@pixel);
+	-moz-filter: blur(@pixel);
+	-webkit-filter: blur(@pixel);
+}
+
+.animation(@animationName, @timer, @fillMode: 'none', @delay: 0s) {
+	animation: @animationName @timer;
+	-webkit-animation: @animationName @timer;
+	-moz-animation: @animationName @timer;
+	-o-animation: @animationName @timer;
+	-ms-animation: @animationName @timer;
+
+	-webkit-animation-fill-mode: @fillMode;
+	-moz-animation-fill-mode: @fillMode;
+	-ms-animation-fill-mode: @fillMode;
+	-o-animation-fill-mode: @fillMode;
+	animation-fill-mode: @fillMode;
+
+	-webkit-animation-delay: @delay;
+	-moz-animation-delay: @delay;
+	-ms-animation-delay: @delay;
+	-o-animation-delay: @delay;
+	animation-delay: @delay;
+}
+
+.getRandom(@minimum, @maximum) {
+
+	@min: `Math.ceil(@{minimum})`;
+	@max: `Math.floor(@{maximum})`;
+	@random: `Math.floor(Math.random() * (@{max} - @{min} + 1))+@{min}`;
+
+}
+
+.backgroundCoverImage(@path) {
+	background: url('@{path}');
+	background-position: center !important;
+	background-size: cover !important;
+	background-repeat: no-repeat !important;
+}
+
+/* generates eWallie animated logo stroking animation  */
+.anim-stroke(@name, @strokeOffset) {
+	@keyframes @name {
+
+		0% {
+			stroke-dashoffset: @strokeOffset;
+		}
+
+		50% {
+			stroke-dashoffset: 0;
+		}
+
+		100% {
+			stroke-dashoffset: @strokeOffset
+		}
+
+	}
+}
