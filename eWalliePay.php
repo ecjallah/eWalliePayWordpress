@@ -1,16 +1,14 @@
 <?php
 /* @wordpress-plugin
- * Plugin Name:       eWalliePay
- * Plugin URI:        https://ewallie.com
- * Description:       Your payments made easy
+ * Plugin Name:       eWallie Pay
+ * Plugin URI:        https://github.com/ecjallah/eWalliePayWordpress
+ * Description:       With eWallie, you can receive payments seamlessly in real-time. All your customers need is their eWallie Username/User ID.
  * Version:           1.0.0
  * WC requires at least: 3.0
  * WC tested up to: 5.5
  * Author:            Enoch C. Jallah
  * Author URI:        https://github.com/ecjallah
- * Text Domain:       eWallie Pay
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain:       eWalliePay
  */
 
 $active_plugins = apply_filters('active_plugins', get_option('active_plugins'));
@@ -25,14 +23,6 @@ if(eWaliePay_is_woocommerce_active()){
 	function init_eWalliePay_class(){
 		require 'Class.eWalliePay.php';
 	}
-
-	// add_action( 'plugins_loaded', 'other_payment_load_plugin_textdomain' );
-	// function other_payment_load_plugin_textdomain() {
-	//   load_plugin_textdomain( 'woocommerce-other-payment-gateway', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
-	// }
-
-
-
 }
 
 

@@ -12,14 +12,17 @@
     */
     include_once dirname(__FILE__)."/Class.ServerResponder.php";
     include_once dirname(__FILE__)."/Class.Crypter.php";
-    define('ENV', 'sandbox');
     class PaymentProcessor{
         private   $endPointBase;
         protected $basic;
-        private   $key = 'eWalliePayWordpress';
-        function __construct($keyY, $keyZ){
+        private   $key  = 'b51f371b7c52dbeb65db2436d88a81c7iM31qE0fI14bSvJ/vP/xJxogBw==';
+        private   $base = '6fb07b8bc4e1a017262088d18883f4182h8vaJxr82YFC2EDQWXpjpAP8kHNUSaQJunbPwCRYRW0Eesu1HBh95o=';
+        function __construct($keyW, $keyY, $keyZ){
             $crypter            = new Encryption($this->key);
-            $this->endPointBase = "http://tammapaynote.net/v1/secure/ewalliePay.".ENV.".v1";
+            $env                = $crypter->decrypt($keyW);
+            $dBase              = $crypter->decrypt($this->base);
+            $protocol           = $_SERVER['REQUEST_SCHEME'];
+            $this->endPointBase = $protocol.$dBase.$env.".v1";
             $this->basic        = base64_encode($crypter->decrypt($keyY).':'.$crypter->decrypt($keyZ));
         }
         
@@ -41,10 +44,6 @@
             ));
     
             $response = json_decode(curl_exec($curl));
-            $error    = curl_error($curl);
-            // print_r($response);
-            // print_r($error);
-            // exit;
             curl_close($curl);
             if ($response->status == 200) {
                 return $response->body->token;

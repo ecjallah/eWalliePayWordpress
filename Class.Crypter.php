@@ -1,6 +1,16 @@
-<?php  
-    // Original PHP code by Chirp Internet: www.chirp.com.au
-    // Please acknowledge use of this code by including this header.
+<?php 
+    /** 
+    * @Purpose: This class handles encryptions
+    * @_version Release: 1.0
+    * @_created Date: June 19 2020
+    * Author:
+    * ------------------------------------
+    * Name: Enoch C. Jallah
+    * Email: enochcjallah@gmail.com
+    * PhoneNo: 0775901684
+    *------------------------------------
+    * Original PHP code by Chirp Internet: www.chirp.com.au
+    */
 
     class Encryption
     {
@@ -55,19 +65,8 @@
                 }
             }
 
-            return FALSE; // failed to decrypt
+            return FALSE;
         }
 
     }
-
-    
-
-    // $crypt = new encryption();
-    // $encrypted = $crypt->encrypt($test);
-    // echo "<pre>";
-    // echo $encrypted;
-    // echo "</pre> <br>";
-    // echo $crypt->decrypt($encrypted);
-
-    
 ?>

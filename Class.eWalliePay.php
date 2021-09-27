@@ -1,9 +1,20 @@
 <?php
+    /** 
+    * @_Purpose: This woocommerce communications
+    * @_version Release: 1.0
+    * @_created Date: September 24, 2021
+    * Author:
+    * ------------------------------------
+    * Name: Enoch C. Jallah
+    * Email: enochcjallah@gmail.com
+    * PhoneNo: +231775901684
+    *------------------------------------
+    */
 include_once(dirname(__FILE__).'/Class.Crypter.php');
 class CLASS_eWalliePay extends WC_Payment_Gateway{
 
     private $order_status;
-    private $sharedKey = 'eWalliePayWordpress';
+    private $sharedKey = 'b51f371b7c52dbeb65db2436d88a81c7iM31qE0fI14bSvJ/vP/xJxogBw==';
 
 
 	public function __construct(){
@@ -19,6 +30,7 @@ class CLASS_eWalliePay extends WC_Payment_Gateway{
 		$this->description      = $this->get_option('description');
 		$this->hide_description = $this->get_option('hide_description');
 		$this->order_status     = $this->get_option('order_status');
+		$this->test_mode        = $this->get_option('test_mode');
 		$this->business_id      = $this->get_option('business_id');
 		$this->api_username     = $this->get_option('api_username');
 		$this->api_password     = $this->get_option('api_password');
@@ -29,62 +41,70 @@ class CLASS_eWalliePay extends WC_Payment_Gateway{
 	}
 
 	public function init_form_fields(){
-				$this->form_fields = array(
-					'enabled' => array(
-					'title' 		=> __( 'Enable/Disable', 'eWalliePay' ),
-					'type' 			=> 'checkbox',
-					'label' 		=> __( 'Enable eWalliePay', 'eWalliePay' ),
-					'default' 		=> 'yes'
-					),
-		            'title' => array(
-						'title' 		=> __( 'Method Title', 'eWalliePay' ),
-						'type' 			=> 'text',
-						'description' 	=> __( 'This controls the title', 'eWalliePay' ),
-						'default'		=> __( 'eWallie', 'eWalliePay' ),
-						'desc_tip'		=> true,
-					),
-					'description' => array(
-						'title' => __( 'Customer Message', 'eWalliePay' ),
-						'type' => 'textarea',
-						'css' => 'width:500px;',
-						'default' => 'eWallie is a fast an easy means of payment. ',
-						'description' 	=> __( 'The message which you want it to appear to the customer in the checkout page.', 'eWalliePay' ),
-					),
-					'hide_description' => array(
-						'title' 		=> __( 'Hide Customer Message', 'eWalliePay' ),
-						'type' 			=> 'checkbox',
-						'label' 		=> __( 'Hide', 'eWalliePay' ),
-						'default' 		=> 'no'
-					),
-					'order_status' => array(
-						'title' => __( 'Order Status After The Checkout', 'eWalliePay' ),
-						'type' => 'select',
-						'options' => wc_get_order_statuses(),
-						'default' => 'wc-on-hold',
-						'description' 	=> __( 'The default order status if this gateway used in payment.', 'eWalliePay' ),
-					),
-					'business_id' => array(
-						'title' 		=> __( 'eWallie Business ID', 'eWalliePay' ),
-						'type' 			=> 'text',
-						'description' 	=> __( 'Your eWallie Business Account ID which can be found under your user profile section after you\'ve logged into your eWallie Account', 'eWalliePay' ),
-						'default'		=> "",
-						'desc_tip'		=> true,
-					),
-					'api_username' => array(
-						'title' 		=> __( 'API Username', 'eWalliePay' ),
-						'type' 			=> 'text',
-						'description' 	=> __( 'Your API Username which was sent via email', 'eWalliePay' ),
-						'default'		=> "",
-						'desc_tip'		=> true,
-					),
-					'api_password' => array(
-						'title' 		=> __( 'API Password', 'eWalliePay' ),
-						'type' 			=> 'text',
-						'description' 	=> __( 'Your API Password which was sent via email', 'eWalliePay' ),
-						'default'		=> "",
-						'desc_tip'		=> true,
-					)
-			 );
+		$this->form_fields = array(
+			'enabled' => array(
+			'title' 		=> __( 'Enable/Disable', 'eWalliePay' ),
+			'type' 			=> 'checkbox',
+			'label' 		=> __( 'Enable eWalliePay', 'eWalliePay' ),
+			'default' 		=> 'yes'
+			),
+			'title' => array(
+				'title' 		=> __( 'Method Title', 'eWalliePay' ),
+				'type' 			=> 'text',
+				'description' 	=> __( 'This controls the title', 'eWalliePay' ),
+				'default'		=> __( 'eWallie', 'eWalliePay' ),
+				'desc_tip'		=> true,
+			),
+			'description' => array(
+				'title' => __( 'Customer Message', 'eWalliePay' ),
+				'type' => 'textarea',
+				'css' => 'width:500px;',
+				'default' => 'With eWallie, your payment can be done seamlessly. All you need is your eWallie Username/User ID. Kindly provide that in the field below and click the CONFIRM button.',
+				'description' 	=> __( 'The message which you want it to appear to the customer in the checkout page.', 'eWalliePay' ),
+			),
+			'hide_description' => array(
+				'title' 		=> __( 'Hide Customer Message', 'eWalliePay' ),
+				'type' 			=> 'checkbox',
+				'label' 		=> __( 'Hide', 'eWalliePay' ),
+				'default' 		=> 'no'
+			),
+			'order_status' => array(
+				'title' => __( 'Order Status After The Checkout', 'eWalliePay' ),
+				'type' => 'select',
+				'options' => wc_get_order_statuses(),
+				'default' => 'wc-on-hold',
+				'description' 	=> __( 'The default order status if this gateway used in payment.', 'eWalliePay' ),
+			),
+			'test_mode' => array(
+			'title' 		=> __( 'Test Mode', 'eWalliePay' ),
+			'type' 			=> 'checkbox',
+			'label' 		=> __( 'Enable Test Mode', 'eWalliePay' ),
+			'description' 	=> __( 'Enabling Test Mode allows you to use test credentials (Business ID, API Username, API Password) for testing purposes only.', 'eWalliePay' ),
+			'default' 		=> 'yes',
+			'desc_tip'		=> true
+			),
+			'business_id' => array(
+				'title' 		=> __( 'eWallie Business ID', 'eWalliePay' ),
+				'type' 			=> 'text',
+				'description' 	=> __( 'Your eWallie Business Account ID which can be found under your user profile section after you\'ve logged into your eWallie Account', 'eWalliePay' ),
+				'default'		=> "",
+				'desc_tip'		=> true,
+			),
+			'api_username' => array(
+				'title' 		=> __( 'API Username', 'eWalliePay' ),
+				'type' 			=> 'text',
+				'description' 	=> __( 'Your API Username which was sent via email', 'eWalliePay' ),
+				'default'		=> "",
+				'desc_tip'		=> true,
+			),
+			'api_password' => array(
+				'title' 		=> __( 'API Password', 'eWalliePay' ),
+				'type' 			=> 'text',
+				'description' 	=> __( 'Your API Password which was sent via email', 'eWalliePay' ),
+				'default'		=> "",
+				'desc_tip'		=> true,
+			)
+		);
 	}
 	/**
 	 * Admin Panel Options
@@ -164,17 +184,19 @@ class CLASS_eWalliePay extends WC_Payment_Gateway{
 		if ( empty( $this->api_username ) || empty( $this->api_password ) ) {
 			return;
 		}
-
-		// do not work with card detailes without SSL unless your website is in a test mode
-		// if ( ! $this->testmode && ! is_ssl() ) {
-		// 	return;
-		// }
+		
+		// do not work with payment details without SSL unless your website is in a test mode
+		if ($this->test_mode !== 'yes'  && ! is_ssl() ) {
+			return;
+		}
 
 		wp_enqueue_script( 'framework',  '/wp-content/plugins/eWalliePay/jquery.min.js' );
 		wp_register_script( 'woocommerce_eWallie', plugins_url( 'Script.eWalliePay.min.js', __FILE__ ), array( 'framework') );
 
-		$crypter = new Encryption('eWalliePayWordpress');
+		$crypter = new Encryption($this->sharedKey);
+		$env     = $this->test_mode === 'yes' ? 'sandbox' : 'live';
 		wp_localize_script( 'woocommerce_eWallie', 'eWallieKeys', array(
+			'keyW'     => $crypter->encrypt($env),
 			'keyX'     => $crypter->encrypt($this->business_id),
 			'keyY'     => $crypter->encrypt($this->api_username),
 			'keyZ'     => $crypter->encrypt($this->api_password),
@@ -191,6 +213,11 @@ class CLASS_eWalliePay extends WC_Payment_Gateway{
 	    $approvalCode = (isset($_POST['ewallie-approval-code'])) && !empty($_POST['ewallie-approval-code'])? trim($_POST['ewallie-approval-code']): '';
 	    $curl         = (isset($_POST['ewallie-curl'])) && !empty($_POST['ewallie-curl'])? trim($_POST['ewallie-curl']): '';
 
+		if ($this->test_mode !== 'yes' && !is_ssl()) {
+			wc_add_notice("SSL Certificate is required for eWallie Payments", 'error');
+			return false;
+		}
+		
 		if($userIdentity === '' || $approvalCode === '' || $curl === ''){
 			wc_add_notice( __('Please provide your eWallie Username/User ID and the 4 digit approval code that was sent to your Registered eWallie Phone Number ','eWalliePay'), 'error');
 			return false;
@@ -199,16 +226,22 @@ class CLASS_eWalliePay extends WC_Payment_Gateway{
 	}
 
 	public function process_payment( $order_id ) {
+		if ($this->test_mode !== 'yes' && !is_ssl()) {
+			wc_add_notice("SSL Certificate is required for eWallie Payments", 'error');
+			return;
+		}
 		$userIdentity = (isset($_POST['ewallie-user-identity'])) && !empty($_POST['ewallie-user-identity'])? trim($_POST['ewallie-user-identity']): '';
-	    $approvalCode = (isset($_POST['ewallie-approval-code'])) && !empty($_POST['ewallie-approval-code'])? trim($_POST['ewallie-approval-code']): '';
-	    $curl         = (isset($_POST['ewallie-curl'])) && !empty($_POST['ewallie-curl'])? trim($_POST['ewallie-curl']): '';
+		$approvalCode = (isset($_POST['ewallie-approval-code'])) && !empty($_POST['ewallie-approval-code'])? trim($_POST['ewallie-approval-code']): '';
+		$curl         = (isset($_POST['ewallie-curl'])) && !empty($_POST['ewallie-curl'])? trim($_POST['ewallie-curl']): '';
 		$crypter      = new Encryption($this->sharedKey);
 		if($userIdentity !== '' && $approvalCode !== '' && $curl !== ''){
 			$protocol = $_SERVER['REQUEST_SCHEME'];
 			$url      = $_SERVER['SERVER_NAME'];
 			$fullURL  = $protocol.'://'.$url."/wp-content/plugins/eWalliePay/api";
+			$env      = $this->test_mode === 'yes' ? 'sandbox' : 'live';
 			$fields   = [
 				'approve-order' => [
+					'key_w'            => $crypter->encrypt($env),
 					'key_y'            => $crypter->encrypt($this->api_username),
 					'key_z'            => $crypter->encrypt($this->api_password),
 					"code"             => $approvalCode,
@@ -235,13 +268,10 @@ class CLASS_eWalliePay extends WC_Payment_Gateway{
 			$response = json_decode(curl_exec($curl));
 	
 			curl_close($curl);
-			// $error    = curl_error($curl);
-            // print_r($response);
-            // print_r($error);
 			if ($response->status == 200) {
 				global $woocommerce;
 				$order = new WC_Order( $order_id );
-				$order->update_status($this->order_status, __( 'Awaiting payment', 'eWalliePay' ));
+				$order->update_status($this->order_status, __( 'Your payment has been successfully received', 'eWalliePay' ));
 				$order->payment_complete($response->body->refrerence);
 				wc_reduce_stock_levels( $order_id );
 				$order->add_order_note($response->body->refrerence);
@@ -262,9 +292,6 @@ class CLASS_eWalliePay extends WC_Payment_Gateway{
 	}
 
 	public function payment_fields(){
-		// echo is_checkout();
-		// echo is_cart();
-		// print_r($this->get_order_total())
 	    ?>
 		<fieldset class="eWalliePay-form">
 			<?php if($this->hide_description === 'no'){ ?>
@@ -279,7 +306,7 @@ class CLASS_eWalliePay extends WC_Payment_Gateway{
 			</p>
 			
 			<div style="display: flex; justify-content: center; margin-bottom: 10px;">
-				<button type="button" class="btn btn-warning" style="width: 50%; display: none;" id="confirm-ewallie-id">Confirm</button>
+				<button type="button" class="btn btn-warning" style="width: 50%; display: none; height: 40px !important; font-size: 12px !important;" id="confirm-ewallie-id">Confirm</button>
 				<div class="clear"></div>
 			</div>
 
