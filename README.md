@@ -1,4 +1,5 @@
 <img style="width: 150px; height 150px; margin: 0 auto; position: absolute; display: inherit; left: 0; right: 0" src="https://ewallie.com/generic_images/svgs/EW-03.svg"/>
+
 ## eWalliePayWordpress
 <hr>
 
