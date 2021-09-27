@@ -1,4 +1,4 @@
-<img style="width: 100px height 100px; margin: 0 auto; position: relative; display: inherit;" src="https://ewallie.com/generic_images/svgs/EW-03.svg">
+<img style="width: 100px; height 100px; margin: 0 auto; position: relative; display: inherit;" src="https://ewallie.com/generic_images/svgs/EW-03.svg">
 # eWalliePayWordpress
 <hr>
 
