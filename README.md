@@ -1,6 +1,6 @@
-<img style="width: 150px; height 150px; margin: 0 auto; position: absolute; display: inherit; left: 0; right: 0" src="https://ewallie.com/generic_images/svgs/EW-03.svg"/>
+<img style="width: 150px; height 150px; margin: 0 auto; position: absolute; display: inherit; right: 0" src="https://ewallie.com/generic_images/svgs/EW-03.svg"/>
 
-## eWalliePayWordpress
+# eWallie Pay - For Wordpress
 <hr>
 
 ### Introduction
@@ -22,6 +22,7 @@ For testing purposes, please make sure ***Test Mode*** is turned on in your ***W
 * **Business ID** - 30020190902013557
 * **API Username**  - $2y$10$a3wiFHR8mAVrKB1afoZRI.D6bzEPli5UVudqgTW6OaQ7W7utYdMiS
 * **API Password** - $2y$10$sMXAm2w/dCikjcKhVfdPq.h9rirC533PoU0IA7ETVmZeBEeIRJuOi
+
 ***NOTE: You should turn Test Mode off when using your LIVE credentials***
 
 ### Support 
