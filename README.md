@@ -1,5 +1,5 @@
-<img style="width: 100px; height 100px; margin: 0 auto; position: relative; display: inherit;" src="https://ewallie.com/generic_images/svgs/EW-03.svg">
-# eWalliePayWordpress
+<img style="width: 100px; height 100px; margin: 0 auto; position: absolute; display: inherit; left: 50%; right: 50%" src="https://ewallie.com/generic_images/svgs/EW-03.svg">
+#eWalliePayWordpress
 <hr>
 
 ### Introduction
